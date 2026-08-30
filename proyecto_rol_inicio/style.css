@@ -1,0 +1,141 @@
+/*RESET BÁSICO */
+/* Esto asegura que todos los navegadores partan de la misma base, quitando márgenes automáticos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*DEFINICIÓN DE COLORES Y FUENTES (Variables CSS) */
+
+:root {
+    --color-pergamino-base: #d8c3a5;
+    --color-pergamino-transparente: rgba(245, 235, 218, 0.6);
+    --color-tinta-oscura: #3e2723;
+    --color-madera-borde: #5a3a22;
+    --color-texto-claro: #f5ebda;
+
+
+    --fuente-titulos: 'Cinzel', serif;
+    --fuente-textos: 'Crimson Text', serif;
+}
+
+/*EL CUERPO DEL DOCUMENTO (EL FONDO) */
+body {
+
+    background-image: url('fondo.png');
+    background-size: cover;
+    /* Cubre toda la pantalla */
+    background-position: center;
+    background-attachment: fixed;
+    background-attachment: fixed;
+    background-color: var(--color-pergamino-base);
+
+    /* Tipografía general para los textos largos */
+    font-family: var(--fuente-textos);
+    color: var(--color-tinta-oscura);
+
+    /* Flexbox para centrar todo el contenido en el medio de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* EL CONTENEDOR PRINCIPAL (El "papel" interior) */
+.contenedor-principal {
+    max-width: 800px;
+    text-align: center;
+    padding: 50px;
+    background-color: var(--color-pergamino-transparente);
+    border: 2px solid var(--color-madera-borde);
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* TIPOGRAFÍA Y TEXTOS */
+h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 4rem;
+    margin-bottom: 10px;
+    color: var(--color-tinta-oscura);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.subtitulo {
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--color-madera-borde);
+    /* Línea separadora */
+    padding-bottom: 15px;
+}
+
+.descripcion p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* BOTONES */
+.botones-accion {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 12px 35px;
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--color-madera-borde);
+    cursor: pointer;
+}
+
+.btn-signin {
+    background-color: var(--color-madera-borde);
+    color: var(--color-texto-claro);
+}
+
+.btn-signin:hover {
+    background-color: var(--color-tinta-oscura);
+    color: var(--color-texto-claro);
+}
+
+.btn-signup {
+    background-color: transparent;
+    color: var(--color-madera-borde);
+}
+
+.btn-signup:hover {
+    background-color: var(--color-madera-borde);
+    color: var(--color-texto-claro);
+}
+
+/* NAVEGACIÓN (Footer / Lore) */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--color-madera-borde);
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-bottom: 1px solid transparent;
+    /* Preparación para la animación */
+    transition: border-bottom 0.3s ease;
+}
+
+nav a:hover {
+    border-bottom: 1px solid var(--color-madera-borde);
+}

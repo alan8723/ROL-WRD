@@ -1,0 +1,236 @@
+/* 1. VARIABLES (DRY Principle) */
+:root {
+    --color-pergamino-base: #d8c3a5;
+    --color-pergamino-transparente: rgba(245, 235, 218, 0.85);
+    --color-tinta-oscura: #3e2723;
+    --color-madera-borde: #5a3a22;
+    --color-campo-fondo: rgba(216, 195, 165, 0.3);
+
+    --fuente-titulos: 'Cinzel', serif;
+    --fuente-textos: 'Crimson Text', serif;
+}
+
+/* 2. BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body-hoja {
+    background-image: url('fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: var(--color-pergamino-base);
+    font-family: var(--fuente-textos);
+    color: var(--color-tinta-oscura);
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 3. CONTENEDOR DE LA HOJA */
+.hoja-personaje {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--color-pergamino-transparente);
+    border: 3px solid var(--color-madera-borde);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Espacio entre bloques */
+}
+
+/* 4. CABECERA */
+.header-hoja {
+    text-align: center;
+    border-bottom: 2px solid var(--color-madera-borde);
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.header-hoja h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 2.2rem;
+    color: var(--color-tinta-oscura);
+    letter-spacing: 2px;
+}
+
+/* 5. SISTEMA DE GRILLAS (CSS GRID) */
+/* Info Básica: 4 columnas */
+.grid-basico {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    border: 1px solid var(--color-madera-borde);
+}
+
+/* Trasfondo: 1 columna grande, resto vacío */
+.grid-trasfondo {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    border: 1px solid var(--color-madera-borde);
+}
+
+/* Mitades (Dotes/Rasgos, Inventario) */
+.grid-mitades {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--color-madera-borde);
+}
+
+/* Cuartos (Vida, Maná, etc) */
+.grid-cuartos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--color-madera-borde);
+}
+
+/* 6. DISEÑO DE LOS CAMPOS INTERNOS */
+.campo {
+    padding: 8px;
+    border-right: 1px solid var(--color-madera-borde);
+    display: flex;
+    flex-direction: column;
+}
+
+.campo:last-child {
+    border-right: none;
+}
+
+.campo.area {
+    min-height: 100px;
+}
+
+.campo.vacio {
+    background-color: transparent;
+}
+
+.sin-borde-top {
+    border-top: none;
+}
+
+/* Etiquetas (Labels) */
+label {
+    font-family: var(--fuente-titulos);
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+/* Inputs, Selects y Textareas */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    background-color: var(--color-campo-fondo);
+    border: none;
+    border-bottom: 1px dashed rgba(90, 58, 34, 0.4);
+    font-family: var(--fuente-textos);
+    font-size: 1.1rem;
+    color: var(--color-tinta-oscura);
+    padding: 4px;
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    flex-grow: 1;
+    border-bottom: none;
+}
+
+/* Campos rellenados automáticamente (Grisado visual) */
+.auto-fill {
+    color: #664d3c;
+    font-style: italic;
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 7. BLOQUE DE ATRIBUTOS (El más complejo) */
+.grid-atributos {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    border: 1px solid var(--color-madera-borde);
+}
+
+.header-atributos {
+    background-color: rgba(90, 58, 34, 0.1);
+    padding: 8px;
+    border-bottom: 1px solid var(--color-madera-borde);
+    border-right: 1px solid var(--color-madera-borde);
+}
+
+.header-atributos:last-child {
+    border-right: none;
+}
+
+.campo-atributo,
+.campo-subatributo {
+    padding: 10px;
+    border-bottom: 1px solid var(--color-madera-borde);
+    border-right: 1px solid var(--color-madera-borde);
+    display: flex;
+    align-items: center;
+}
+
+.campo-subatributo {
+    border-right: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.campo-atributo:last-child,
+.campo-subatributo:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para sumar/restar puntos */
+.controles-puntos {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-punto {
+    background-color: var(--color-madera-borde);
+    color: #fff;
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.valor-atributo {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.sub-item {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.sub-item input {
+    width: 50px;
+    text-align: center;
+}
+
+/* 8. BLOQUE EQUIPO */
+.bloque-equipo {
+    border: 1px solid var(--color-madera-borde);
+}
+
+.header-equipo {
+    background-color: rgba(90, 58, 34, 0.1);
+    padding: 8px;
+    border-bottom: 1px solid var(--color-madera-borde);
+}

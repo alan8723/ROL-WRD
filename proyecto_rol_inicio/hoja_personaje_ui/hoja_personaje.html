@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoja de Personaje - Sistema IX</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="body-hoja">
+    <div class="hoja-personaje">
+        <header class="header-hoja">
+            <h1>HOJA DE PERSONAJE — SISTEMA IX</h1>
+            <button id="btn-guardar" class="btn btn-primario" style="margin-top: 10px;">Guardar Personaje</button>
+        </header>
+
+        <!-- Info Básica -->
+        <div class="grid-basico">
+            <div class="campo">
+                <label>NOMBRE</label>
+                <input type="text" id="input-nombre" placeholder="Nombre del personaje">
+            </div>
+            <div class="campo">
+                <label>RAZA</label>
+                <select id="select-raza">
+                    <option value="">Selecciona...</option>
+                    <option value="angel">Angel</option>
+                    <option value="demonio">Demonio</option>
+                    <option value="elfo">Elfo</option>
+                    <option value="kenko">Kenko</option>
+                    <option value="enano">Enano</option>
+                </select>
+            </div>
+            <div class="campo">
+                <label>CLASE</label>
+                <select id="select-clase">
+                    <option value="">Selecciona...</option>
+                    <option value="guerrero">Guerrero</option>
+                    <option value="mago">Mago</option>
+                    <option value="cazador">Cazador</option>
+                </select>
+            </div>
+            <div class="campo">
+                <label>NIVEL</label>
+                <div class="controles-puntos">
+                    <button id="btn-lvl-menos" class="btn-punto">-</button>
+                    <span id="valor-nivel" class="valor-atributo">1</span>
+                    <button id="btn-lvl-mas" class="btn-punto">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trasfondo -->
+        <div class="grid-trasfondo">
+            <div class="campo">
+                <label>TRASFONDO</label>
+                <select id="select-trasfondo">
+                    <option value="">Selecciona...</option>
+                    <option value="noble">Noble</option>
+                    <option value="criminal">Criminal</option>
+                </select>
+            </div>
+            <div class="campo vacio">
+                <!-- Espacio vacío según la imagen -->
+            </div>
+        </div>
+
+        <!-- Dotes y Rasgos -->
+        <div class="grid-mitades">
+            <div class="campo area">
+                <label>DOTES</label>
+                <textarea readonly class="auto-fill" placeholder="Se calculará automáticamente..."></textarea>
+            </div>
+            <div class="campo area">
+                <label>RASGOS</label>
+                <select multiple class="selector-multiple">
+                    <option value="vision">Visión Nocturna</option>
+                    <option value="resistencia">Resistencia al fuego</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Estadísticas de Combate -->
+        <div class="grid-cuartos">
+            <div class="campo">
+                <label>VIDA</label>
+                <input type="text" value="0" readonly class="auto-fill" id="valor-vida">
+            </div>
+            <div class="campo">
+                <label>MANÁ</label>
+                <input type="text" value="0" readonly class="auto-fill" id="valor-mana">
+            </div>
+            <div class="campo">
+                <label>CLASE DE ARMADURA</label>
+                <input type="number" value="8" readonly class="auto-fill">
+            </div>
+            <div class="campo">
+                <label>MOVIMIENTO</label>
+                <input type="text" value="30m" readonly class="auto-fill">
+            </div>
+        </div>
+
+        <!-- Bloque 5: Atributos y Subatributos -->
+        <div class="grid-atributos">
+            <div class="header-atributos"><label>ATRIBUTOS PRINCIPALES</label>
+                <div style="font-size: 0.8rem; color: #5a3a22;">Puntos disponibles: <span id="pts-atr-disp">1</span>
+                </div>
+            </div>
+            <div class="header-atributos"><label>SUBATRIBUTOS VINCULADOS</label>
+
+            </div>
+
+            <div class="campo-atributo">
+                <label>FÍSICO</label>
+                <div class="controles-puntos">
+                    <button class="btn-punto" id="btn-fisico-menos">-</button>
+                    <span class="valor-atributo" id="valor-atributo-fisico">1</span>
+                    <button class="btn-punto" id="btn-fisico-mas">+</button>
+                </div>
+            </div>
+
+            <div class="campo-subatributo">
+                <div class="sub-item">
+                    <label>Fuerza:</label>
+                    <div class="controles-puntos">
+                        <button class="btn-punto" id="btn-fuerza-menos">-</button>
+                        <span class="valor-atributo" id="valor-subatributo-fuerza">0</span>
+                        <button class="btn-punto" id="btn-fuerza-mas">+</button>
+                    </div>
+                </div>
+                <div class="sub-item">
+                    <label>Destreza:</label>
+                    <div class="controles-puntos">
+                        <button class="btn-punto" id="btn-destreza-menos">-</button>
+                        <span class="valor-atributo" id="valor-subatributo-destreza">0</span>
+                        <button class="btn-punto" id="btn-destreza-mas">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="campo-atributo">
+                <label>CAPACIDAD</label>
+                <div class="controles-puntos">
+                    <button class="btn-punto" id="btn-capacidad-menos">-</button>
+                    <span class="valor-atributo" id="valor-atributo-capacidad">1</span>
+                    <button class="btn-punto" id="btn-capacidad-mas">+</button>
+                </div>
+            </div>
+            <div class="campo-subatributo">
+                <div class="sub-item">
+                    <label>Carisma:</label>
+                    <div class="controles-puntos">
+                        <button class="btn-punto" id="btn-carisma-menos">-</button>
+                        <span class="valor-atributo" id="valor-subatributo-carisma">0</span>
+                        <button class="btn-punto" id="btn-carisma-mas">+</button>
+                    </div>
+                </div>
+                <div class="sub-item">
+                    <label>Sabiduría:</label>
+                    <div class="controles-puntos">
+                        <button class="btn-punto" id="btn-sabiduria-menos">-</button>
+                        <span class="valor-atributo" id="valor-subatributo-sabiduria">0</span>
+                        <button class="btn-punto" id="btn-sabiduria-mas">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="campo-atributo">
+                <label>CONSTITUCIÓN</label>
+                <div class="controles-puntos">
+                    <button class="btn-punto" id="btn-constitucion-menos">-</button>
+                    <span class="valor-atributo" id="valor-atributo-constitucion">1</span>
+                    <button class="btn-punto" id="btn-constitucion-mas">+</button>
+                </div>
+            </div>
+            <div class="campo-subatributo">
+                <div class="sub-item">
+                    <label>Resistencia:</label>
+                    <div class="controles-puntos">
+                        <button class="btn-punto" id="btn-resistencia-menos">-</button>
+                        <span class="valor-atributo" id="valor-subatributo-resistencia">0</span>
+                        <button class="btn-punto" id="btn-resistencia-mas">+</button>
+                    </div>
+                </div>
+                <div class="sub-item">
+                    <label>Canalización:</label>
+                    <div class="controles-puntos">
+                        <button class="btn-punto" id="btn-canalizacion-menos">-</button>
+                        <span class="valor-atributo" id="valor-subatributo-canalizacion">0</span>
+                        <button class="btn-punto" id="btn-canalizacion-mas">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 6: Técnicas y Hechizos -->
+        <div class="grid-mitades">
+            <div class="campo area">
+                <label>TÉCNICAS EQUIPADAS</label>
+                <textarea placeholder="Escribe tus técnicas aquí..."></textarea>
+            </div>
+            <div class="campo area">
+                <label>HECHIZOS EQUIPADOS</label>
+                <textarea placeholder="Escribe tus hechizos aquí..."></textarea>
+            </div>
+        </div>
+
+        <!-- Bloque 7: Equipo -->
+        <div class="bloque-equipo">
+            <div class="header-equipo"><label>EQUIPO EQUIPADO</label></div>
+            <div class="grid-mitades sin-borde-top">
+                <div class="campo">
+                    <label>ARMA PRINCIPAL:</label>
+                    <input type="text" placeholder="...">
+                </div>
+                <div class="campo">
+                    <label>ARMA SECUNDARIA:</label>
+                    <input type="text" placeholder="...">
+                </div>
+            </div>
+            <div class="grid-mitades sin-borde-top">
+                <div class="campo">
+                    <label>ARMADURA:</label>
+                    <input type="text" placeholder="...">
+                </div>
+                <div class="campo">
+                    <label>ACCESORIOS:</label>
+                    <input type="text" placeholder="...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 8: Inventario y Notas -->
+        <div class="grid-mitades">
+            <div class="campo area">
+                <label>INVENTARIO / CONSUMIBLES</label>
+                <textarea placeholder="Lista de objetos..."></textarea>
+            </div>
+            <div class="campo area">
+                <label>NOTAS</label>
+                <textarea placeholder="Apuntes de la campaña..."></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- 1. La librería de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Archivo de configuración -->
+    <script src="../login/supabase-config.js"></script>
+
+    <!-- Guardia de Seguridad -->
+    <script src="guardia.js"></script>
+
+    <script src="../login/auth.js"></script>
+
+    <script src="hoja.js"></script>
+    <!-- Sistema de atributos y subatributos-->
+    <script src="sistema-puntos.js"></script>
+    <!-- Lógica de hoja de personaje-->
+    <script src="hoja_personaje.js"></script>
+</body>
+
+</html>

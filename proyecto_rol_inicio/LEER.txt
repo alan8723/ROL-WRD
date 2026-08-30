@@ -1,0 +1,1 @@
+Coloca la imagen 'image_650586.png' en esta misma carpeta junto a index.html y style.css para que el fondo se cargue correctamente.
