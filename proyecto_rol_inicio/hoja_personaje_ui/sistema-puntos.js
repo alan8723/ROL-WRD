@@ -24,8 +24,7 @@ const hijosDe = {
 function calcularPuntosAtributo(nivel) {
     let puntos = 0;
     for (let i = 1; i <= nivel; i++) {
-        // Si el nivel es 10 o 20, suma 2. Si no, suma 1.
-        puntos += (i === 10 || i === 20) ? 2 : 1;
+        puntos++;
     }
     return puntos;
 }
@@ -184,8 +183,14 @@ function sumarSubatributo(nombreSub, nombrePadre) {
     // REGLA: Debe haber reservas en el padre y el subatributo no pasar de 10
     if (estado.reservas[nombrePadre] > 0 && estado.subatributos[nombreSub] < 10) {
 
-        estado.subatributos[nombreSub]++; // Subimos el hijo
-        estado.reservas[nombrePadre]--;   // Gastamos la reserva del padre
+        const valorSubactual = estado.subatributos[nombreSub] +
+            estado.bonosFijosRaza[nombreSub] +
+            estado.bonosFijosClase[nombreSub] +
+            estado.bonosRasgos[nombreSub];
+        if (valorSubactual < 10) {
+            estado.subatributos[nombreSub]++; // Subimos el hijo
+            estado.reservas[nombrePadre]--;   // Gastamos la reserva del padre
+        }
 
         actualizarPantalla();
     } else {

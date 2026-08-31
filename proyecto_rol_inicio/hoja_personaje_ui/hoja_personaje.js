@@ -19,23 +19,10 @@ const datosRasgos = {
     prudente: { sabiduria: 1 },
     disciplina: { sabiduria: 1 },
     curioso: { sabiduria: 1 },
-    medicina: { sabiduria: 1 },
     estrategia: { sabiduria: 1 },
     conocimiento_divino: { sabiduria: 1 },
     perspicacia: { sabiduria: 1 },
     erudicion_historica: { sabiduria: 2, destreza: -1 },
-
-    acrobata: { destreza: 1 },
-    escalador: { destreza: 1 },
-    juego_de_manos: { destreza: 1, carisma: 1, fuerza: -1 },
-
-    atleta: { fuerza: 1, destreza: 1, sabiduria: -1 },
-    intimidante: { fuerza: 1 },
-    temerario: { fuerza: 1, },
-
-    supervivencia: { resistencia: 1 },
-    resistente: { resistencia: 1 },
-    voluntad_ferrea: { resistencia: 2, canalizacion: -1 },
 
     diplomatico: { carisma: 1 },
     interpretacion: { carisma: 1 },
@@ -45,8 +32,28 @@ const datosRasgos = {
     fumador: { carisma: 1 },
     codicioso: { carisma: 1 },
 
+    forzudo: { fuerza: 2, destreza: -1 },
+    atleta: { fuerza: 1, destreza: 1, sabiduria: -1 },
+    intimidante: { fuerza: 1 },
+    temerario: { fuerza: 1, },
+    rompehueso: { fuerza: 1 },
+
+    acrobata: { destreza: 1 },
+    escalador: { destreza: 1 },
+    juego_de_manos: { destreza: 1, carisma: 1, fuerza: -1 },
+    reflejos: { destreza: 1 },
+    duelista: { destreza: 1 },
+
+    supervivencia: { resistencia: 1 },
+    resistente: { resistencia: 1 },
+    medicina: { resistencia: 1 },
+    constitucion_de_hierro: { resistencia: 1 },
+    ultimo_aliento: { resistencia: 2, canalizacion: -1 },
+
     paciente: { canalizacion: 1 },
     conocimiento_arcano: { canalizacion: 1 },
+    sobrecarga: { canalizacion: 1 },
+    concentracion: { canalizacion: 1 },
     pacto_mana: { vida: -4, mana: 3 },
 
 };
