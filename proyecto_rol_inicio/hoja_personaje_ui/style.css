@@ -150,6 +150,67 @@ textarea {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+/* 1. EL CONTENEDOR CON SCROLL */
+.lista-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que bajen a la siguiente línea */
+    gap: 12px;
+    /* Espacio entre cada rasgo */
+    max-height: 110px;
+    /* Altura para mostrar aprox 2 filas */
+    overflow-y: auto;
+    /* Agrega la barra de scroll si superan la altura */
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.03);
+    /* Un fondo muy sutil para delimitar la caja */
+    border: 1px solid #d4c4b7;
+    border-radius: 8px;
+}
+
+/* 2. OCULTAR EL CHECKBOX FEO */
+.rasgo-label input {
+    display: none;
+    /* Lo hacemos invisible, pero sigue funcionando al hacer clic en el label */
+}
+
+/* 3. ESTILO DEL RASGO (Sin seleccionar) */
+.rasgo-texto {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid #8c5a35;
+    border-radius: 20px;
+    /* Esto hace el borde completamente redondeado (píldora) */
+    background-color: #fcf9f2;
+    color: #5a3a22;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    user-select: none;
+    /* Evita que el texto se pinte de azul al darle doble clic */
+    transition: all 0.2s ease-in-out;
+    /* Prepara la animación suave */
+}
+
+/* Efecto al pasar el mouse por encima */
+.rasgo-texto:hover {
+    background-color: #eaddcf;
+}
+
+/* 4. ESTILO DEL RASGO (Seleccionado) */
+/* El '+' significa: Al span que está justo después de un input seleccionado, aplícale esto: */
+.rasgo-label input:checked+.rasgo-texto {
+    background-color: #5a3a22;
+    /* Fondo oscuro */
+    color: #fcf9f2;
+    /* Letra clara */
+    border-color: #5a3a22;
+    transform: scale(1.05);
+    /* Animación: Crece un 5% */
+    box-shadow: 0 0 8px rgba(90, 58, 34, 0.5);
+    /* Efecto de resplandor / aura */
+}
+
 /* 7. BLOQUE DE ATRIBUTOS (El más complejo) */
 .grid-atributos {
     display: grid;

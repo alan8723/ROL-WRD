@@ -46,6 +46,27 @@ function calcularPuntosDisponibles() {
     return puntosDisponibles;
 }
 
+function calcularRasgos() {
+    // 1. Limpiamos la pizarra de bonos (volvemos todo a cero)
+    estado.bonosRasgos = { fuerza: 0, destreza: 0, carisma: 0, sabiduria: 0, resistencia: 0, canalizacion: 0, vida: 0, mana: 0 };
+
+    // 2. Recorremos la lista de rasgos que están marcados actualmente
+    estado.rasgosActivos.forEach(rasgoId => {
+        const bonosDelRasgo = datosRasgos[rasgoId];
+
+        // Si el rasgo tiene modificadores matemáticos, los sumamos a la caja principal
+        if (bonosDelRasgo) {
+            for (let propiedad in bonosDelRasgo) {
+                // Usamos += porque los rasgos SE ACUMULAN entre sí
+                estado.bonosRasgos[propiedad] += bonosDelRasgo[propiedad];
+            }
+        }
+    });
+
+    // 3. Mandamos a repintar la pantalla
+    actualizarPantalla();
+}
+
 //actualiza los valores en la pantalla
 function actualizarPantalla() {
     const puntosDisponibles = calcularPuntosDisponibles();
