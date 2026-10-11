@@ -52,7 +52,7 @@ function calcularRasgos() {
 
     // 2. Recorremos la lista de rasgos que están marcados actualmente
     estado.rasgosActivos.forEach(rasgoId => {
-        const bonosDelRasgo = datosRasgos[rasgoId];
+        const bonosDelRasgo = datosRasgos[rasgoId].bonos;
 
         // Si el rasgo tiene modificadores matemáticos, los sumamos a la caja principal
         if (bonosDelRasgo) {
@@ -89,56 +89,70 @@ function actualizarPantalla() {
 
     //subatributos
     if (document.getElementById('valor-subatributo-fuerza')) {
-        const fuerzaTotal = estado.subatributos.fuerza +
+        const fuerzaSuma = estado.subatributos.fuerza +
             estado.bonosFijosRaza.fuerza +
             estado.bonosFijosClase.fuerza +
             estado.bonosRasgos.fuerza;
+        const fuerzaTotal = Math.min(fuerzaSuma, 10);
         document.getElementById('valor-subatributo-fuerza').innerText = fuerzaTotal;
     }
     if (document.getElementById('valor-subatributo-destreza')) {
-        const destrezaTotal = estado.subatributos.destreza +
+        const destrezaSuma = estado.subatributos.destreza +
             estado.bonosFijosRaza.destreza +
             estado.bonosFijosClase.destreza +
             estado.bonosRasgos.destreza;
+        const destrezaTotal = Math.min(destrezaSuma, 10);
         document.getElementById('valor-subatributo-destreza').innerText = destrezaTotal;
     }
     if (document.getElementById('valor-subatributo-carisma')) {
-        const carismaTotal = estado.subatributos.carisma +
+        const carismaSuma = estado.subatributos.carisma +
             estado.bonosFijosRaza.carisma +
             estado.bonosFijosClase.carisma +
             estado.bonosRasgos.carisma;
+        const carismaTotal = Math.min(carismaSuma, 10);
         document.getElementById('valor-subatributo-carisma').innerText = carismaTotal;
     }
     if (document.getElementById('valor-subatributo-sabiduria')) {
-        const sabiduriaTotal = estado.subatributos.sabiduria +
+        const sabiduriaSuma = estado.subatributos.sabiduria +
             estado.bonosFijosRaza.sabiduria +
             estado.bonosFijosClase.sabiduria +
             estado.bonosRasgos.sabiduria;
+        const sabiduriaTotal = Math.min(sabiduriaSuma, 10);
         document.getElementById('valor-subatributo-sabiduria').innerText = sabiduriaTotal;
     }
     if (document.getElementById('valor-subatributo-resistencia')) {
-        const resistenciaTotal = estado.subatributos.resistencia +
+        const resistenciaSuma = estado.subatributos.resistencia +
             estado.bonosFijosRaza.resistencia +
             estado.bonosFijosClase.resistencia +
             estado.bonosRasgos.resistencia;
+        const resistenciaTotal = Math.min(resistenciaSuma, 10);
         document.getElementById('valor-subatributo-resistencia').innerText = resistenciaTotal;
     }
     if (document.getElementById('valor-subatributo-canalizacion')) {
-        const canalizacionTotal = estado.subatributos.canalizacion +
+        const canalizacionSuma = estado.subatributos.canalizacion +
             estado.bonosFijosRaza.canalizacion +
             estado.bonosFijosClase.canalizacion +
             estado.bonosRasgos.canalizacion;
+        const canalizacionTotal = Math.min(canalizacionSuma, 10);
         document.getElementById('valor-subatributo-canalizacion').innerText = canalizacionTotal;
     }
     //recursos derivados
-    const resistenciaTotal = estado.subatributos.resistencia + estado.bonosFijosRaza.resistencia + estado.bonosFijosClase.resistencia;
-    const vidaTotal = estado.nivel + estado.atributos.constitucion + (resistenciaTotal * 2) + estado.bonosFijosClase.vida;
+    const resistenciaTotal = estado.subatributos.resistencia +
+        estado.bonosFijosRaza.resistencia +
+        estado.bonosFijosClase.resistencia;
+    const vidaTotal = estado.nivel +
+        estado.atributos.constitucion +
+        (resistenciaTotal * 2) +
+        estado.bonosFijosClase.vida +
+        estado.bonosRasgos.vida;
     if (document.getElementById('valor-vida')) {
-        document.getElementById('valor-vida').value = vidaTotal;
+        document.getElementById('valor-vida').value = Math.max(1, vidaTotal);
     }
     if (document.getElementById('valor-mana')) {
-        const manaTotal = estado.detalles.manaBase + estado.bonosFijosClase.mana;
-        document.getElementById('valor-mana').value = manaTotal;
+        const manaTotal = estado.detalles.manaBase +
+            estado.bonosFijosClase.mana +
+            estado.bonosRasgos.mana;
+        document.getElementById('valor-mana').value = Math.max(1, manaTotal);
     }
 
 
@@ -233,42 +247,21 @@ function restarSubatributo(nombreSub, nombrePadre) {
     }
 }
 
-// --- BOTONES FÍSICO ---
-document.getElementById('btn-fisico-mas')?.addEventListener('click', () => sumarAtributo('fisico'));
-document.getElementById('btn-fisico-menos')?.addEventListener('click', () => restarAtributo('fisico'));
+// --- GENERADOR AUTOMÁTICO DE EVENTOS PARA BOTONES ---
 
-// --- BOTONES CAPACIDAD ---
-document.getElementById('btn-capacidad-mas')?.addEventListener('click', () => sumarAtributo('capacidad'));
-document.getElementById('btn-capacidad-menos')?.addEventListener('click', () => restarAtributo('capacidad'));
+// Recorremos nuestro mapa de relaciones (padre e hijos)
+for (const [padre, hijos] of Object.entries(hijosDe)) {
 
-// --- BOTONES CONSTITUCIÓN ---
-document.getElementById('btn-constitucion-mas')?.addEventListener('click', () => sumarAtributo('constitucion'));
-document.getElementById('btn-constitucion-menos')?.addEventListener('click', () => restarAtributo('constitucion'));
+    // 1. Conectamos los botones del Atributo Padre (ej: fisico)
+    document.getElementById(`btn-${padre}-mas`)?.addEventListener('click', () => sumarAtributo(padre));
+    document.getElementById(`btn-${padre}-menos`)?.addEventListener('click', () => restarAtributo(padre));
 
-// --- BOTÓN: SUMAR FUERZA ---
-document.getElementById('btn-fuerza-mas')?.addEventListener('click', () => sumarSubatributo('fuerza', 'fisico'));
-document.getElementById('btn-fuerza-menos')?.addEventListener('click', () => restarSubatributo('fuerza', 'fisico'));
-
-// --- BOTÓN: SUMAR DESTREZA ---
-document.getElementById('btn-destreza-mas')?.addEventListener('click', () => sumarSubatributo('destreza', 'fisico'));
-document.getElementById('btn-destreza-menos')?.addEventListener('click', () => restarSubatributo('destreza', 'fisico'));
-
-// --- BOTÓN: SUMAR CARISMA ---
-document.getElementById('btn-carisma-mas')?.addEventListener('click', () => sumarSubatributo('carisma', 'capacidad'));
-document.getElementById('btn-carisma-menos')?.addEventListener('click', () => restarSubatributo('carisma', 'capacidad'));
-
-// --- BOTÓN: SUMAR SABIDURÍA ---
-document.getElementById('btn-sabiduria-mas')?.addEventListener('click', () => sumarSubatributo('sabiduria', 'capacidad'));
-document.getElementById('btn-sabiduria-menos')?.addEventListener('click', () => restarSubatributo('sabiduria', 'capacidad'));
-
-// --- BOTÓN: SUMAR RESISTENCIA ---
-document.getElementById('btn-resistencia-mas')?.addEventListener('click', () => sumarSubatributo('resistencia', 'constitucion'));
-document.getElementById('btn-resistencia-menos')?.addEventListener('click', () => restarSubatributo('resistencia', 'constitucion'));
-
-// --- BOTÓN: SUMAR CANALIZACIÓN ---
-document.getElementById('btn-canalizacion-mas')?.addEventListener('click', () => sumarSubatributo('canalizacion', 'constitucion'));
-document.getElementById('btn-canalizacion-menos')?.addEventListener('click', () => restarSubatributo('canalizacion', 'constitucion'));
-
+    // 2. Recorremos los subatributos de este padre y conectamos sus botones (ej: fuerza, destreza)
+    hijos.forEach(hijo => {
+        document.getElementById(`btn-${hijo}-mas`)?.addEventListener('click', () => sumarSubatributo(hijo, padre));
+        document.getElementById(`btn-${hijo}-menos`)?.addEventListener('click', () => restarSubatributo(hijo, padre));
+    });
+}
 // 4. Ejemplo de Botón Nivel +
 document.getElementById('btn-lvl-mas')?.addEventListener('click', () => {
     if (estado.nivel < 20) {
