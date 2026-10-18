@@ -10,6 +10,7 @@ let estado = {
     bonosRasgos: { fuerza: 0, destreza: 0, carisma: 0, sabiduria: 0, resistencia: 0, canalizacion: 0, vida: 0, mana: 0 },
 
     rasgosActivos: [],
+    dotesActivos: [],
 
     detalles: { tamano: '-', manaBase: 0 }
 };

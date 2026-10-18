@@ -1,17 +1,59 @@
 // Guardamos las reglas de nuestro juego en un "Diccionario" (Objeto)
-// Diccionario maestro de razas
+// DICCIONARIO DE RAZAS
 const datosRazas = {
-    angel: { bonoAtributo: 'canalizacion', bonoValor: 1, tamano: 'Mediano-Alto', manaBase: 14 },
-    demonio: { bonoAtributo: 'fuerza', bonoValor: 1, tamano: 'Alto', manaBase: 18 },
-    elfo: { bonoAtributo: 'sabiduria', bonoValor: 1, tamano: 'Mediano', manaBase: 12 },
-    kenko: { bonoAtributo: 'destreza', bonoValor: 1, tamano: 'Mediano', manaBase: 10 },
-    enano: { bonoAtributo: 'resistencia', bonoValor: 1, tamano: 'Pequeño', manaBase: 8 }
+    angel: {
+        bonos: { canalizacion: 1 },
+        detalles: { tamano: 'Mediano-Alto', manaBase: 14 },
+        dotesPermitidos: ['alas', 'resolucion'], // 'resolucion' es el dote genérico
+        habilidad: "Imbuir",
+        idiomas: "Ixiano, Divino"
+    },
+    demonio: {
+        bonos: { fuerza: 1 },
+        detalles: { tamano: 'Alto', manaBase: 18 },
+        dotesPermitidos: ['sangre_ardiente', 'piel_demoniaca', 'sed_de_batalla', 'resolucion'],
+        habilidad: "Frenesí",
+        idiomas: "Ixiano, Secrario"
+    },
+    elfo: {
+        bonos: { sabiduria: 1 },
+        detalles: { tamano: 'Mediano', manaBase: 12 },
+        dotesPermitidos: ['afinidad_natural', 'resolucion'],
+        habilidad: "Sentidos Agudos (Ventaja en Percepción y rastreo).",
+        idiomas: "Ixiano, Élfico"
+    },
+    kenko: {
+        bonos: { destreza: 1 },
+        detalles: { tamano: 'Mediano', manaBase: 10 },
+        dotesPermitidos: ['alas_planeadoras', 'resolucion'],
+        habilidad: "Imitación (Reproduce con precisión voces o sonidos).",
+        idiomas: "Ixiano, Aviar"
+    },
+    enano: {
+        bonos: { resistencia: 1 },
+        detalles: { tamano: 'Pequeño', manaBase: 8 },
+        dotesPermitidos: ['resolucion'], // Aquí puedes agregar más dotes generales luego
+        habilidad: "Visión en la oscuridad.",
+        idiomas: "Ixiano"
+    }
 };
 //Diccionario maestro de Clases
 const datosClases = {
     guerrero: { fuerza: 2, resistencia: 1, vida: 2, mana: 1 },
     mago: { sabiduria: 2, canalizacion: 1, vida: 0, mana: 3 },
     cazador: { destreza: 2, sabiduria: 1, vida: 2, mana: 2 }
+};
+// DICCIONARIO DE DOTES
+const datosDotes = {
+    alas: { nombre: "Alas", efecto: "Tienes la capacidad de volar a mediana altura." },
+    sangre_ardiente: { nombre: "Sangre Ardiente", efecto: "Pagas 1 PV para ignorar Debilitamiento, Aturdimiento o Empujones este turno." },
+    piel_demoniaca: { nombre: "Piel Demoníaca", efecto: "Reduce en 1 el primer daño recibido cada combate." },
+    sed_de_batalla: { nombre: "Sed de Batalla", efecto: "Cada enemigo derrotado recupera 1 punto de Maná." },
+    resolucion: { nombre: "Resolución", efecto: "La primera vez que quedes por debajo del 50% de Vida, recuperas 1 Maná." },
+    ingenio: { nombre: "Ingenio", efecto: "Una vez por combate puedes repetir una tirada de una Técnica o Hechizo." },
+    adaptabilidad: { nombre: "Adaptabilidad", efecto: "En un descanso corto puedes cambiar una Técnica/Hechizo preparada." },
+    afinidad_natural: { nombre: "Afinidad Natural", efecto: "El primer hechizo en cada combate cuesta 1 Maná menos (mínimo 1)." },
+    alas_planeadoras: { nombre: "Alas Planeadoras", efecto: "Puedes planear." }
 };
 
 // DICCIONARIO DE RASGOS
@@ -293,31 +335,116 @@ selectorClase?.addEventListener('change', () => {
     actualizarPantalla();
 });
 
-selectorRaza?.addEventListener('change', () => {
+// Función para manejar el clic en los dotes (Límite de 1)
+function manejarClicDote(evento) {
+    const doteElegida = evento.target.value;
 
-    const razaElegida = selectorRaza.value.toLowerCase(); // Pasamos a minúsculas por seguridad
-
-    // PASO CRÍTICO: Limpiamos los bonos anteriores antes de aplicar los nuevos.
-    // Así evitamos que los bonos se acumulen si el jugador cambia de idea.
-    estado.bonosFijosRaza = { fuerza: 0, destreza: 0, carisma: 0, sabiduria: 0, resistencia: 0, canalizacion: 0 };
-    estado.detalles = { tamano: '-', manaBase: 0 };
-
-    // Si el usuario eligió una raza válida (y no la opción por defecto vacía)
-    if (razaElegida !== "") {
-        // Extraemos las reglas de esa raza específica
-        const datos = datosRazas[razaElegida];
-
-        // INYECCIÓN DINÁMICA: Usamos el texto (ej. 'fuerza') para apuntar al lugar correcto del estado
-        estado.bonosFijosRaza[datos.bonoAtributo] = datos.bonoValor;
-
-        // Asignamos el resto de los datos
-        estado.detalles.tamano = datos.tamano;
-        estado.detalles.manaBase = datos.manaBase;
+    if (evento.target.checked) {
+        if (estado.dotesActivos.length >= 1) { // Límite de 1 dote por raza
+            evento.target.checked = false;
+            alert("Solo puedes elegir 1 Dote de raza.");
+            return;
+        }
+        estado.dotesActivos.push(doteElegida);
+    } else {
+        estado.dotesActivos = estado.dotesActivos.filter(d => d !== doteElegida);
     }
 
-    // Le pedimos al cerebro que redibuje toda la pantalla con la nueva información
+    // Llamamos al actualizador de textos
+    actualizarTextosPasivas();
+}
+
+// EVENTO DE CAMBIO DE RAZA ACTUALIZADO
+selectorRaza?.addEventListener('change', () => {
+    const razaElegida = selectorRaza.value.toLowerCase();
+    const contenedorDotes = document.getElementById('contenedor-dotes');
+
+    // 1. Limpieza de números y dotes anteriores
+    estado.bonosFijosRaza = { fuerza: 0, destreza: 0, carisma: 0, sabiduria: 0, resistencia: 0, canalizacion: 0 };
+    estado.detalles = { tamano: '-', manaBase: 0, razaID: '' };
+    estado.dotesActivos = [];
+    contenedorDotes.innerHTML = ''; // Borramos los botones del HTML
+
+    if (razaElegida !== "") {
+        const datos = datosRazas[razaElegida];
+
+        // Asignamos matemáticas (bucle mágico)
+        for (let propiedad in datos.bonos) {
+            estado.bonosFijosRaza[propiedad] = datos.bonos[propiedad];
+        }
+        estado.detalles.tamano = datos.detalles.tamano;
+        estado.detalles.manaBase = datos.detalles.manaBase;
+        estado.detalles.razaID = razaElegida; // Guardamos qué raza es para los textos
+
+        // 2. FABRICAMOS LOS BOTONES DE DOTES
+        datos.dotesPermitidos.forEach(idDote => {
+            const infoDote = datosDotes[idDote];
+
+            const label = document.createElement('label');
+            label.className = 'rasgo-label';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'checkbox-dote'; // Para no mezclarlo con rasgos
+            checkbox.value = idDote;
+
+            const span = document.createElement('span');
+            span.className = 'rasgo-texto';
+            span.innerText = infoDote.nombre;
+
+            label.appendChild(checkbox);
+            label.appendChild(span);
+            contenedorDotes.appendChild(label);
+
+            checkbox.addEventListener('change', manejarClicDote);
+        });
+    } else {
+        contenedorDotes.innerHTML = '<span style="color: #8c5a35; font-size: 0.8rem;">Selecciona una raza primero...</span>';
+    }
+
     actualizarPantalla();
+    actualizarTextosPasivas();
 });
+
+//Actualizando los textos de las pasivas
+
+function actualizarTextosPasivas() {
+    const cajaTexto = document.getElementById('texto-pasivas');
+    if (!cajaTexto) return;
+
+    let textoFinal = "";
+
+    // 1. Textos de la Raza (Habilidades e Idiomas)
+    if (estado.detalles.razaID) {
+        const infoRaza = datosRazas[estado.detalles.razaID];
+        textoFinal += `--- RAZA ---\n`;
+        textoFinal += `Habilidad: ${infoRaza.habilidad}\n`;
+        textoFinal += `Idiomas: ${infoRaza.idiomas}\n\n`;
+    }
+
+    // 2. Textos del Dote Seleccionado
+    if (estado.dotesActivos.length > 0) {
+        textoFinal += `--- DOTE ---\n`;
+        estado.dotesActivos.forEach(idDote => {
+            textoFinal += `• ${datosDotes[idDote].nombre}: ${datosDotes[idDote].efecto}\n`;
+        });
+        textoFinal += `\n`;
+    }
+
+    // 3. Textos de los Rasgos Seleccionados
+    if (estado.rasgosActivos.length > 0) {
+        textoFinal += `--- RASGOS ---\n`;
+        estado.rasgosActivos.forEach(idRasgo => {
+            // Solo imprimimos los que tienen un efecto descriptivo
+            if (datosRasgos[idRasgo] && datosRasgos[idRasgo].efecto) {
+                textoFinal += `• ${datosRasgos[idRasgo].nombre}: ${datosRasgos[idRasgo].efecto}\n`;
+            }
+        });
+    }
+
+    // Inyectamos todo el compendio en el textarea
+    cajaTexto.value = textoFinal.trim();
+}
 
 
 
@@ -345,6 +472,7 @@ function manejarClicRasgo(evento) {
 
     // Llamamos al cálculo
     calcularRasgos(); // (Nota: en tu código esto se llama calcularRasgos, no recalcularRasgos)
+    actualizarTextosPasivas();
 }
 
 // ¡MUY IMPORTANTE! Al final de tu archivo hoja_personaje.js, llama a la función para que todo arranque:
